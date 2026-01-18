@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracelight GTM Strategy - Shyam</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE STYLING --- */
+        :root {
+            --bg-color: #FDFBF7; /* Cream/Off-white */
+            --text-color: #111111; /* Sharp Black */
+            --transition-speed: 0.6s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- SLIDE MECHANISM --- */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2rem 4rem; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.98);
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
+            z-index: 0;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        /* --- HOME SLIDE STYLING --- */
+        #slide-home {
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .main-header {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            max-width: 1000px;
+        }
+
+        .separator {
+            width: 150px;
+            height: 2px;
+            background-color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+
+        .sub-header {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        /* VERTICAL LIST LAYOUT */
+        .toc-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            width: 100%;
+            max-width: 800px;
+            align-items: flex-start; 
+        }
+
+        .toc-item {
+            cursor: pointer;
+            padding: 0.8rem 1.5rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: left;
+        }
+
+        .toc-item:hover {
+            border-left: 3px solid var(--text-color);
+            background: rgba(0,0,0,0.02);
+            padding-left: 2rem; 
+        }
+
+        .toc-title {
+            font-size: 1.4rem;
+            font-weight: 400;
+            display: inline-block;
+        }
+
+        .click-hint {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            opacity: 0;
+            font-style: italic;
+            animation: fadeInHint 2s ease-in forwards;
+            animation-delay: 3s;
+        }
+
+        @keyframes fadeInHint {
+            0% { opacity: 0; }
+            100% { opacity: 0.5; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.4rem;
+            background-color: var(--text-color);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        .cursor.hidden { display: none; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* --- CONTENT SLIDES STYLING --- */
+        .slide-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: left;
+        }
+
+        .wide-wrapper {
+            max-width: 1300px; 
+            margin: 0 auto;
+            width: 100%;
+            text-align: left;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding-right: 20px;
+            padding-left: 10px;
+        }
+        .wide-wrapper::-webkit-scrollbar { width: 6px; }
+        .wide-wrapper::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* --- TIMELINE SPECIFIC CSS --- */
+        .timeline-wrapper {
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            width: 100%;
+            padding: 0 90px; 
+            padding-bottom: 8rem; 
+        }
+
+        .timeline-header-row {
+            display: inline-flex;
+            align-items: baseline;
+            justify-content: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            width: 100%;
+        }
+
+        .timeline-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .know-more-btn {
+            font-size: 0.9rem;
+            color: #555;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .know-more-btn:hover { background-color: var(--text-color); color: #fff; border-color: var(--text-color); }
+
+        .timeline-line {
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+            position: relative;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .t-point {
+            position: relative;
+            width: 12px;
+            height: 12px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .t-text {
+            position: absolute;
+            width: 160px; 
+            font-size: 0.75rem; 
+            line-height: 1.35;
+            background: rgba(255,255,255,0.95);
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            top: 2rem; 
+            z-index: 5;
+        }
+
+        .t-connector {
+            position: absolute;
+            width: 1px;
+            height: 1.5rem; 
+            background-color: var(--text-color);
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.5;
+            top: 10px;
+        }
+
+        /* --- PIVOT & WHY ME SECTIONS CSS --- */
+        .section-block {
+            border-top: 2px solid #eee;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .section-block-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .detail-list li {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            line-height: 1.5;
+        }
+        .detail-list li strong { font-weight: 700; color: #000; }
+
+        /* --- PLAN PAGE SPECIFIC --- */
+        .plan-split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .plan-column h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #000;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .plan-column p { font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.5; }
+
+        .honest-section {
+            border: 2px dashed #ccc;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+            background: rgba(255,255,255,0.5);
+        }
+        .honest-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+
+        /* --- COST TABLE STYLES --- */
+        .cost-table { width: 100%; border-collapse: collapse; margin-top: 1rem; margin-bottom: 2.5rem; font-size: 0.95rem; }
+        .cost-table th { text-align: left; padding: 1rem; border-bottom: 2px solid #000; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        .cost-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #eee; }
+        .cost-table tr:last-child td { border-bottom: none; font-weight: bold; background: rgba(0,0,0,0.03); }
+
+        /* --- MODELS GRID --- */
+        .models-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+        .model-card { border: 1px solid #ddd; padding: 1.5rem; background: rgba(255,255,255,0.6); }
+        .model-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; }
+        .model-card p { font-size: 0.9rem; margin-bottom: 0.8rem; line-height: 1.4; }
+
+        /* --- MATH SECTION --- */
+        .math-section { background-color: #fff; border: 2px solid var(--text-color); padding: 2rem; margin-bottom: 2rem; }
+        .math-header { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+        .math-formula { font-size: 1.8rem; font-weight: 700; margin: 1.5rem 0; text-align: center; font-family: 'Courier New', Courier, monospace; }
+        .math-text { font-size: 1rem; line-height: 1.6; }
+
+        /* --- OTHER SLIDE STYLES --- */
+        .split-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 1.5rem; margin-bottom: 2rem; }
+        .competition-section { border-top: 1px solid #ccc; padding-top: 1.5rem; width: 100%; padding-bottom: 2rem; }
+        .section-header { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eee; padding-bottom: 0.3rem; }
+        ul { list-style-type: none; margin-top: 0; }
+        li { margin-bottom: 0.8rem; padding-left: 1.2rem; position: relative; font-size: 0.95rem; line-height: 1.4; }
+        .column li strong { display: inline-block; font-weight: 700; }
+        li::before { content: "→"; position: absolute; left: 0; font-weight: bold; }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .back-btn:hover { opacity: 1; }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide active" id="slide-home">
+        <div class="main-header">
+            Why should Tracelight hire Shyam as their GTM enabler in the APAC region?
+        </div>
+        <div class="separator"></div>
+        <div class="sub-header">Table of Contents</div>
+
+        <div class="toc-container">
+            <div class="toc-item" onclick="navigate('slide-apac')">
+                <div class="toc-title"><span id="text-1"></span><span class="cursor" id="cursor-1"></span></div>
+            </div>
+            <div class="toc-item" onclick="navigate('slide-shyam')">
+                <div class="toc-title"><span id="text-2"></span><span class="cursor hidden" id="cursor-2"></span></div>
+            </div>
+            <div class="toc-item" onclick="navigate('slide-cost')">
+                <div class="toc-title"><span id="text-3"></span><span class="cursor hidden" id="cursor-3"></span></div>
+            </div>
+             <div class="toc-item" onclick="navigate('slide-plan')">
+                <div class="toc-title"><span id="text-4"></span><span class="cursor hidden" id="cursor-4"></span></div>
+            </div>
+        </div>
+        <div class="click-hint">(Click an item to view details)</div>
+    </div>
+
+    <div class="slide" id="slide-apac">
+        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
+        <div class="wide-wrapper">
+            <h2>The APAC Playbook: Volume x Velocity</h2>
+            <div class="content-text">
+                <p style="margin-bottom: 1.5rem; max-width: 900px; font-style: italic; font-size: 0.95rem;">
+                    APAC naturally will be on Tracelight’s target list soon but I am here trying to make a case why now is a good time for English first APAC places like India & Singapore. Hong Kong, Australia & New Zealand are good to have.
+                </p>
+                
+                <div class="split-container">
+                    <div class="column">
+                        <div class="section-header">1. INDIA</div>
+                        <ul>
+                            <li><strong>The GCC Explosion:</strong> As of late 2025, India is home to ~53% of the world’s Global Capability Centers (GCCs). These are no longer just call centers. Major banks (JPMC, Goldman Sachs, Morgan Stanley) have moved sophisticated "middle office" roles here. There are over 1.9 million professionals in these centers, many of whom are analysts whose primary job is grinding through Excel models.</li>
+                            <li><strong>The "Agentic" Budget:</strong> 58% of Indian GCCs have explicitly budgeted for Agentic AI in 2026 to optimize their 2,000+ analyst armies.</li>
+                            <li><strong>The Efficiency Arbitrage:</strong> An analyst here costs ~$7,750/year (₹6-7 Lakh). At Kroll, we had entire teams just for formatting & templating. If a $40/month AI can outperform a human "formatting team," the adoption will be immediate and massive.</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="section-header">2. SINGAPORE</div>
+                        <ul>
+                            <li><strong>The "Switzerland of Asia":</strong> A boom in Single Family Offices managing $100M+ AUM with tiny teams (3-5 people). They cannot build internal tech; they need Tracelight to act as the "AI Analyst" multiplier.</li>
+                            <li><strong>The Check Signers:</strong> Most global PE firms (KKR, Blackstone, Warburg Pincus) and Investment Banks have their APAC Investment Committees sitting in Singapore. Even if the grunt work happens elsewhere, the budget approval happens in Singapore. By targeting Singapore, you aren't just selling software; you are getting Tracelight onto the screens of the people who actually sign the deals (and the checks).</li>
+                            <li><strong>The Government Catalyst:</strong> Grants like PSG (Productivity Solutions Grant) subsidize up to 50% of IT costs. If we get accredited, the government effectively pays half our customer's bill.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="competition-section">
+                    <div class="section-header">3. There’s almost no competition</div>
+                    <ul>
+                        <li>Companies like superjoin and daloopa (competitors of tracelight based out of India) are still building their excel add in and is nowhere near on how tracelight works.</li>
+                        <li>While major companies like databricks and Alphasense (acquirer of carousel) have their sales offices in Singapore – but the market is too early for everyone</li>
+                        <li>Based on the user survey I did for buttercell – Top IBs and Investment research firms are unaware about the capabilities of a spreadsheet AI – in simple terms they used Microsoft co-pilot and gave up with no hope.</li>
+                        <li>This region is screaming for help there is sadly no one selling to them.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide" id="slide-shyam">
+        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
+        <div class="wide-wrapper">
+            <h2>Why Shyam?</h2>
+            
+            <div class="timeline-wrapper">
+                <div class="timeline-header-row">
+                    <div class="timeline-header" style="border: none; margin: 0;">Background & Experience</div>
+                    <a href="https://drive.google.com/drive/folders/1cbkIlqRERESGHsAfsg1-oGyxwcvFk2-P?usp=drive_link" target="_blank" class="know-more-btn">
+                        (click here to know more about me)
+                    </a>
+                </div>
+                <div class="timeline-line">
+                    <div class="t-point">
+                        <div class="t-connector"></div>
+                        <div class="t-text">Studied at a top Indian institute majoring in finance (Excel-heavy coursework).</div>
+                    </div>
+                    <div class="t-point">
+                        <div class="t-connector"></div>
+                        <div class="t-text">Finance internships & tenure at Fortune Wealth Management.</div>
+                    </div>
+                    <div class="t-point">
+                        <div class="t-connector"></div>
+                        <div class="t-text">Worked at Kroll: Valuations for VC/PE, regulatory & post-merger analysis.</div>
+                    </div>
+                     <div class="t-point">
+                        <div class="t-connector"></div>
+                        <div class="t-text">Founded a freelancing marketplace (gained traction, ultimately unscalable).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-header">The Pivot to Buttercell</div>
+                <ul class="detail-list">
+                    <li>After years of working in Excel, I realized that despite the daily grind, I still found manual Excel work frustrating and difficult to master perfectly.</li>
+                    <li>Spent 2025 deep-diving into AI to understand how it could reduce time spent on spreadsheets.</li>
+                    <li>Launched Buttercell to solve a specific problem I faced at Kroll: while most AI tools focus on running formulas inside Excel, they ignore the external data problem.</li>
+                    <li>Identified that 60% of financial modelling work involves manually moving data from different sources and formats into Excel.</li>
+                    <li>Building Buttercell to automate that ingestion process, filling the gap that current tools and add-ins are missing.</li>
+                </ul>
+            </div>
+
+            <div class="section-block" style="border-top: none; padding-top: 0;">
+                <div class="section-block-header" style="border-bottom: 1px solid #ddd; display:inline-block; margin-bottom: 1.5rem;">Why Me?</div>
+                <ul class="detail-list">
+                    <li><strong>Founder-Level Energy:</strong> I spent late 2025 building Buttercell, a direct competitor in the AI-Excel space, before realizing that winning this market requires time, capital, and traction I don't have. My conviction is unchanged—Tracelight is worth 100x its current value, and I want to pour my energy into the winning team rather than building a mediocre alternative.</li>
+                    <li><strong>User Empathy:</strong> You don't need to train me on "pain points" because I was the miserable target user you are trying to save. At Kroll, I was the analyst pulling all-nighters, manually fixing formatting. I’m not selling software; I’m offering them the lifeline I wished I had.</li>
+                    <li><strong>The "Sunrise Shift" Advantage:</strong> I understand you'd like me in Hoxton, but the reality is APAC is awake when London is asleep. Operating from India, I’ll field inquiries from Singapore and HK before your UK team has their morning coffee, turning Tracelight into a 24-hour operation.</li>
+                    <li><strong>Technical Operator:</strong> I’m not here to just read a script. I can set up n8n and Zapier workflows to automate our CRM and translate raw customer feedback into actual specs. Whether it’s automating the pipeline or flying to close a deal, I operate with a "whatever it takes" mindset.</li>
+                    <li><strong>The Hustle:</strong> I know opening a new region isn't glamorous—it's a grind. At my last startup, TroopSync, I personally executed over 5,000 outbound touchpoints to validate the market. I don't need a manager to motivate me; I’m used to the rejection and volume required to spin a flywheel from zero.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide" id="slide-cost">
+        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
+        <div class="wide-wrapper">
+            <h2>Cost of Expansion</h2>
+            <div class="content-text">
+                <p>Strategic expansion requires calculated investment. A lean GTM approach minimizes CAC while maximizing impact.</p>
+                
+                <table class="cost-table">
+                    <thead>
+                        <tr>
+                            <th>Cost Item</th>
+                            <th>Hiring Shyam (India Remote)</th>
+                            <th>Hiring Sales (London)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Base Salary</td><td>£30,000</td><td>£55,000</td></tr>
+                        <tr><td>Commissions</td><td>Performance based (linked to deals)</td><td>Performance based</td></tr>
+                        <tr><td>Sales stack</td><td>£2,500</td><td>Similar</td></tr>
+                        <tr><td>Office/Overhead</td><td>£2,000 (Co-working)</td><td>£12,000 (London Desk + Ops)</td></tr>
+                        <tr><td>Taxes/Benefits</td><td>Included in EOR fee</td><td>+13.8% NI + Pension (~£8k)</td></tr>
+                        <tr><td>Travel</td><td>Cheap access to APAC</td><td>Expensive long-haul flights</td></tr>
+                        <tr><td>Result</td><td>24/7 Coverage</td><td>9-5 GMT Coverage</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="models-grid">
+                    <div class="model-card">
+                        <h3>Direct B2B Consultant (Recommended)</h3>
+                        <p><strong>Structure:</strong> Consulting contract. Fees via Wise/Mercury.</p>
+                        <p><strong>Cost:</strong> £0 platform fees.</p>
+                        <p><strong>Pros:</strong> Fastest setup (24h), no admin.</p>
+                    </div>
+                    <div class="model-card">
+                        <h3>Employer of Record (Deel)</h3>
+                        <p><strong>Structure:</strong> Global platform hires as full-time employee.</p>
+                        <p><strong>Cost:</strong> ~£6,000/yr fees + taxes.</p>
+                        <p><strong>Pros:</strong> Standard VC-backed route.</p>
+                    </div>
+                    <div class="model-card">
+                        <h3>"Local Partner" Route</h3>
+                        <p><strong>Structure:</strong> Ontrack HR Services (Family agency).</p>
+                        <p><strong>Cost:</strong> At-Cost (~£1,000/yr).</p>
+                        <p><strong>Pros:</strong> Full IP protection, low cost.</p>
+                    </div>
+                </div>
+
+                <div class="math-section">
+                    <div class="math-header">The Break-Even Analysis</div>
+                    <div class="content-text">
+                        I know this investment is big, but let’s look at the unit economics. The break-even point is incredibly low.
+                    </div>
+                    <div class="math-formula">
+                        150 Users × $40/mo × 12 Months = $72,000 ARR
+                    </div>
+                    <div class="content-text" style="font-weight: 500;">
+                        The Reality: <br>
+                        That $72k effectively covers my entire salary, tools, and travel budget. In a region where a single JP Morgan GCC houses 2,000+ analysts, securing 150 seats is the floor. Everything after is pure profit.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide" id="slide-plan">
+        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
+        <div class="wide-wrapper">
+            <h2>30-Day Execution Plan & Beyond</h2>
+            <div class="content-text">
+                
+                <div class="plan-split-container">
+                    <div class="plan-column">
+                        <h3>Week 1</h3>
+                        <p>Although I have used the product before, I will spend the first week trying to "break" it in every way possible to fully understand its capabilities and limits. Simultaneously, I will use this time to get introduced to the team, understand internal processes, and settle into the culture.</p>
+                    </div>
+                    <div class="plan-column">
+                        <h3>Days 7–30</h3>
+                        <p>I will launch cold email automation targeting 100 emails a day, totaling approximately 2,200 emails a month. Aiming for a conservative 0.5% conversion rate, this should result in roughly 11 booked demos. The goal is to start here and gradually increase volume over time.</p>
+                    </div>
+                </div>
+
+                <div class="split-container" style="margin-top: 2rem;">
+                    <div class="column">
+                        <div class="section-header">Cold Email Structure & Targeting</div>
+                        <ul style="margin-top: 1rem;">
+                            <li><strong>Structure:</strong> We will use AI to analyze the online impression of a prospect to determine if they are likely to push for the product internally, assigning a specific "Push Score" to prioritize leads.</li>
+                            <li><strong>Target Audience:</strong> The outreach will target Managing Directors, VPs/AVPs, Associates, and Analysts across specific industries including Valuations, Transaction Advisory Services (TAS), Investment Banking, and Consulting.</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="section-header">Networking & Social Media</div>
+                        <ul style="margin-top: 1rem;">
+                            <li><strong>Warm Intros:</strong> My background in finance colleges and jobs gives me a significant advantage. I have close friends and acquaintances at major banks like Nomura, Goldman Sachs, JPMC, and Wells Fargo, as well as smaller localized banks.</li>
+                            <li><strong>Social Channels:</strong> I will focus on Reddit, X (Twitter), and LinkedIn. While I naturally enjoy being active on Reddit and X, LinkedIn is essential because that is where the potential customers are.</li>
+                            <li><strong>Content Strategy:</strong> To build a strong audience, I will produce memes for engagement, video tutorials showing how things work, and general high-attention posts to build awareness.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="honest-section">
+                    <div class="honest-title">60 & 90 Day Plan</div>
+                    <p style="font-size: 1.1rem; font-style: italic;">
+                        “Honestly idk at this point, I could repeat the above and take care of whatever is important we’ll close some pretty amazing deals.”
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA FOR TYPING ---
+        const tocData = [
+            { id: 'text-1', cursorId: 'cursor-1', text: 'i) The APAC Playbook: Volume x Velocity' },
+            { id: 'text-2', cursorId: 'cursor-2', text: 'ii) Why Shyam is the right hire for this?' },
+            { id: 'text-3', cursorId: 'cursor-3', text: 'iii) Cost of expanding into APAC' },
+            { id: 'text-4', cursorId: 'cursor-4', text: 'iv) 30-Day Execution Plan & Beyond' }
+        ];
+
+        let currentLine = 0;
+        let charIndex = 0;
+        let typingSpeed = 20;
+
+        function typeSequence() {
+            if (currentLine >= tocData.length) return;
+
+            const currentObj = tocData[currentLine];
+            const textEl = document.getElementById(currentObj.id);
+            const cursorEl = document.getElementById(currentObj.cursorId);
+
+            cursorEl.classList.remove('hidden');
+
+            if (charIndex < currentObj.text.length) {
+                textEl.innerHTML += currentObj.text.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeSequence, typingSpeed);
+            } else {
+                cursorEl.classList.add('hidden'); 
+                currentLine++;
+                charIndex = 0;
+                
+                if(currentLine < tocData.length) {
+                    const nextCursor = document.getElementById(tocData[currentLine].cursorId);
+                    nextCursor.classList.remove('hidden');
+                    setTimeout(typeSequence, 200); 
+                } else {
+                    cursorEl.classList.remove('hidden');
+                }
+            }
+        }
+
+        window.onload = function() {
+            setTimeout(typeSequence, 500);
+        };
+
+        function navigate(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            const targetSlide = document.getElementById(slideId);
+            if(targetSlide) {
+                targetSlide.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
