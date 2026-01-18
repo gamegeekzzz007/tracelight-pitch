@@ -180,7 +180,7 @@
             line-height: 1.5;
         }
 
-        /* --- TIMELINE SPECIFIC CSS --- */
+        /* --- TIMELINE SPECIFIC CSS (FIXED) --- */
         .timeline-wrapper {
             margin-top: 3rem;
             margin-bottom: 2rem;
@@ -288,35 +288,57 @@
         }
         .detail-list li strong { font-weight: 700; color: #000; }
 
-        /* --- PLAN PAGE SPECIFIC --- */
-        .plan-split-container {
+        /* --- PLAN PAGE SPECIFIC (NEW GRID) --- */
+        .focus-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
-        .plan-column h3 {
+        .focus-card {
+            border: 1px solid #ccc;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.6);
+        }
+        .focus-card h3 {
             font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 1rem;
             border-bottom: 1px solid #000;
             padding-bottom: 0.5rem;
-            display: inline-block;
         }
-        .plan-column p { font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.5; }
+        .focus-card ul { list-style: none; padding-left: 0; }
+        .focus-card li { 
+            font-size: 0.95rem; 
+            margin-bottom: 0.8rem; 
+            line-height: 1.4; 
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        .focus-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .focus-card li strong { font-weight: 700; }
 
-        .honest-section {
-            border: 2px dashed #ccc;
-            padding: 2rem;
-            text-align: center;
+        .one-team-note {
+            border: 2px dashed #999;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.02);
             margin-top: 2rem;
-            margin-bottom: 4rem;
-            background: rgba(255,255,255,0.5);
+            margin-bottom: 2rem;
         }
-        .honest-title {
-            font-weight: 700;
-            margin-bottom: 1rem;
+        .one-team-note strong { text-transform: uppercase; }
+
+        .thank-you-msg {
+            text-align: center;
             font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 3rem;
+            margin-bottom: 4rem;
+            font-style: italic;
         }
 
 
@@ -361,6 +383,27 @@
         }
         .back-btn:hover { opacity: 1; }
 
+        /* --- NEXT PAGE BUTTON --- */
+        .next-btn-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .next-btn {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            display: inline-block;
+        }
+        .next-btn:hover { opacity: 0.8; }
+
     </style>
 </head>
 <body>
@@ -386,7 +429,10 @@
                 <div class="toc-title"><span id="text-4"></span><span class="cursor hidden" id="cursor-4"></span></div>
             </div>
         </div>
-        <div class="click-hint">(Click an item to view details)</div>
+        
+        <div class="next-btn-container" style="justify-content: center; margin-top: 4rem;">
+            <div class="next-btn" onclick="navigate('slide-apac')">Start Presentation →</div>
+        </div>
     </div>
 
     <div class="slide" id="slide-apac">
@@ -427,6 +473,10 @@
                     </ul>
                 </div>
             </div>
+            
+            <div class="next-btn-container">
+                <div class="next-btn" onclick="navigate('slide-shyam')">Next Page →</div>
+            </div>
         </div>
     </div>
 
@@ -442,6 +492,7 @@
                         (click here to know more about me)
                     </a>
                 </div>
+                
                 <div class="timeline-line">
                     <div class="t-point">
                         <div class="t-connector"></div>
@@ -483,6 +534,10 @@
                     <li><strong>The Hustle:</strong> I know opening a new region isn't glamorous—it's a grind. At my last startup, TroopSync, I personally executed over 5,000 outbound touchpoints to validate the market. I don't need a manager to motivate me; I’m used to the rejection and volume required to spin a flywheel from zero.</li>
                 </ul>
             </div>
+
+            <div class="next-btn-container">
+                <div class="next-btn" onclick="navigate('slide-cost')">Next Page →</div>
+            </div>
         </div>
     </div>
 
@@ -490,62 +545,72 @@
         <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
         <div class="wide-wrapper">
             <h2>Cost of Expansion</h2>
-            <div class="content-text">
-                <p>Strategic expansion requires calculated investment. A lean GTM approach minimizes CAC while maximizing impact.</p>
+            
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <th>Cost Item</th>
+                        <th>Hiring Shyam (India Remote)</th>
+                        <th>Hiring Sales (London)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Base Salary</td><td>£30,000</td><td>£55,000</td></tr>
+                    <tr><td>Commissions</td><td>Performance based (linked to number of closed deals)</td><td>Performance based</td></tr>
+                    <tr><td>Sales stack (Apollo.io, LinkedIn Nav, CRM)</td><td>£2,500</td><td>Similar ig</td></tr>
+                    <tr><td>Office/Overhead</td><td>£2,000 (Co-working)</td><td>£12,000 (London Desk + Ops)</td></tr>
+                    <tr><td>Taxes/Benefits</td><td>Included in EOR fee</td><td>+13.8% NI + Pension (~£8k)</td></tr>
+                    <tr><td>Travel (just in case)</td><td>Cheap access to APAC</td><td>Expensive long-haul flights</td></tr>
+                    <tr><td>Result</td><td>24/7 Coverage</td><td>9-5 GMT Coverage</td></tr>
+                </tbody>
+            </table>
+
+            <div class="content-text" style="margin-bottom: 1rem; font-weight: bold;">Legal structure to hire me:</div>
+
+            <div class="models-grid">
+                <div class="model-card">
+                    <h3>Direct B2B Consultant (Recommended for Speed)</h3>
+                    <p><strong>Structure:</strong> I sign a standard consulting contract. You wire fees directly to my account (via Wise/Mercury).</p>
+                    <p><strong>Cost:</strong> £0 platform fees.</p>
+                    <p><strong>Pros:</strong> Fastest setup (24 hours) with no tax/benefits administration for you.</p>
+                    <p><strong>Cons:</strong> Technically a contractor relationship, though we can use Warrants for equity alignment. If there’s any worry about “permanent establishment” or “disguised employment” risk, it’s better to go with other options.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>Employer of Record (Deel/Remote.com)</h3>
+                    <p><strong>Structure:</strong> You use a global platform like Deel to hire me as a full-time employee in India.</p>
+                    <p><strong>Cost:</strong> ~£6,000/year in platform fees + Employer taxes.</p>
+                    <p><strong>Pros:</strong> The standard, trusted route for VC-backed startups.</p>
+                    <p><strong>Cons:</strong> Extremely expensive platform fees for a single hire.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>The "Local Partner" Route (Strategic Cost-Saving)</h3>
+                    <p><strong>Structure:</strong> We use Ontrack HR Services, a compliant payroll agency in India.</p>
+                    <p style="font-size: 0.85rem; font-style: italic;"><strong>Transparency Note:</strong> My family operates this agency. Because of this, we can waive the standard commercial markups and treat this as a strategic partnership.</p>
+                    <p><strong>Cost:</strong> At-Cost (approx. £1,000/year vs £6,000 for Deel).</p>
+                    <p><strong>Pros:</strong> You get full "Employee" IP protection and compliance without paying the premium Deel pricing.</p>
+                </div>
+            </div>
+
+            <div class="math-section">
+                <div class="content-text">
+                    I know this investment on me is big but let’s look at the actual unit economics. Because of the sheer volume in India and the purchasing power in Singapore, the break-even point is incredibly low.
+                </div>
                 
-                <table class="cost-table">
-                    <thead>
-                        <tr>
-                            <th>Cost Item</th>
-                            <th>Hiring Shyam (India Remote)</th>
-                            <th>Hiring Sales (London)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Base Salary</td><td>£30,000</td><td>£55,000</td></tr>
-                        <tr><td>Commissions</td><td>Performance based (linked to deals)</td><td>Performance based</td></tr>
-                        <tr><td>Sales stack</td><td>£2,500</td><td>Similar</td></tr>
-                        <tr><td>Office/Overhead</td><td>£2,000 (Co-working)</td><td>£12,000 (London Desk + Ops)</td></tr>
-                        <tr><td>Taxes/Benefits</td><td>Included in EOR fee</td><td>+13.8% NI + Pension (~£8k)</td></tr>
-                        <tr><td>Travel</td><td>Cheap access to APAC</td><td>Expensive long-haul flights</td></tr>
-                        <tr><td>Result</td><td>24/7 Coverage</td><td>9-5 GMT Coverage</td></tr>
-                    </tbody>
-                </table>
-
-                <div class="models-grid">
-                    <div class="model-card">
-                        <h3>Direct B2B Consultant (Recommended)</h3>
-                        <p><strong>Structure:</strong> Consulting contract. Fees via Wise/Mercury.</p>
-                        <p><strong>Cost:</strong> £0 platform fees.</p>
-                        <p><strong>Pros:</strong> Fastest setup (24h), no admin.</p>
-                    </div>
-                    <div class="model-card">
-                        <h3>Employer of Record (Deel)</h3>
-                        <p><strong>Structure:</strong> Global platform hires as full-time employee.</p>
-                        <p><strong>Cost:</strong> ~£6,000/yr fees + taxes.</p>
-                        <p><strong>Pros:</strong> Standard VC-backed route.</p>
-                    </div>
-                    <div class="model-card">
-                        <h3>"Local Partner" Route</h3>
-                        <p><strong>Structure:</strong> Ontrack HR Services (Family agency).</p>
-                        <p><strong>Cost:</strong> At-Cost (~£1,000/yr).</p>
-                        <p><strong>Pros:</strong> Full IP protection, low cost.</p>
-                    </div>
+                <div class="math-header" style="margin-top: 1.5rem;">The Math:</div>
+                <div class="math-formula">
+                    150 Users × $40/month × 12 Months = $72,000 ARR
                 </div>
 
-                <div class="math-section">
-                    <div class="math-header">The Break-Even Analysis</div>
-                    <div class="content-text">
-                        I know this investment is big, but let’s look at the unit economics. The break-even point is incredibly low.
-                    </div>
-                    <div class="math-formula">
-                        150 Users × $40/mo × 12 Months = $72,000 ARR
-                    </div>
-                    <div class="content-text" style="font-weight: 500;">
-                        The Reality: <br>
-                        That $72k effectively covers my entire salary, tools, and travel budget. In a region where a single JP Morgan GCC houses 2,000+ analysts, securing 150 seats is the floor. Everything after is pure profit.
-                    </div>
+                <div class="math-header">The Reality:</div>
+                <div class="content-text">
+                    That $72k effectively covers my entire salary, tools, and travel budget for the year. In a region where a single JP Morgan GCC in Mumbai houses 2,000+ analysts, securing 150 seats isn't a 'stretch goal'—it’s the floor. That is just one department at one bank. I am not just confident we can hit that; I know that once we clear that low bar, everything else is pure profit.
                 </div>
+            </div>
+
+            <div class="next-btn-container">
+                <div class="next-btn" onclick="navigate('slide-plan')">Next Page →</div>
             </div>
         </div>
     </div>
@@ -553,46 +618,69 @@
     <div class="slide" id="slide-plan">
         <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
         <div class="wide-wrapper">
-            <h2>30-Day Execution Plan & Beyond</h2>
-            <div class="content-text">
+            <h2>Areas to Focus</h2>
+            
+            <div class="focus-grid">
                 
-                <div class="plan-split-container">
-                    <div class="plan-column">
-                        <h3>Week 1</h3>
-                        <p>Although I have used the product before, I will spend the first week trying to "break" it in every way possible to fully understand its capabilities and limits. Simultaneously, I will use this time to get introduced to the team, understand internal processes, and settle into the culture.</p>
-                    </div>
-                    <div class="plan-column">
-                        <h3>Days 7–30</h3>
-                        <p>I will launch cold email automation targeting 100 emails a day, totaling approximately 2,200 emails a month. Aiming for a conservative 0.5% conversion rate, this should result in roughly 11 booked demos. The goal is to start here and gradually increase volume over time.</p>
-                    </div>
+                <div class="focus-card">
+                    <h3>1. Client Outreach & Sales Execution</h3>
+                    <ul>
+                        <li><strong>Cold Outbound:</strong> I will build and execute daily campaigns using Apollo and LinkedIn Sales Navigator to target Investment Banks, PE funds, and Advisory firms in Singapore and India.</li>
+                        <li><strong>Pipeline Management:</strong> I will handle the full sales cycle independently—from identifying leads and booking the first meeting to running product demos and negotiating commercial terms.</li>
+                        <li><strong>Network Activation:</strong> I will immediately reach out to my existing network of financial analysts and former colleagues to get quick feedback and set up initial trial accounts.</li>
+                        <li><strong>Time Zone Coverage:</strong> I will manage all communications during APAC business hours, ensuring that inquiries from Singapore/India are answered instantly rather than waiting for the UK team to come online.</li>
+                    </ul>
                 </div>
 
-                <div class="split-container" style="margin-top: 2rem;">
-                    <div class="column">
-                        <div class="section-header">Cold Email Structure & Targeting</div>
-                        <ul style="margin-top: 1rem;">
-                            <li><strong>Structure:</strong> We will use AI to analyze the online impression of a prospect to determine if they are likely to push for the product internally, assigning a specific "Push Score" to prioritize leads.</li>
-                            <li><strong>Target Audience:</strong> The outreach will target Managing Directors, VPs/AVPs, Associates, and Analysts across specific industries including Valuations, Transaction Advisory Services (TAS), Investment Banking, and Consulting.</li>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <div class="section-header">Networking & Social Media</div>
-                        <ul style="margin-top: 1rem;">
-                            <li><strong>Warm Intros:</strong> My background in finance colleges and jobs gives me a significant advantage. I have close friends and acquaintances at major banks like Nomura, Goldman Sachs, JPMC, and Wells Fargo, as well as smaller localized banks.</li>
-                            <li><strong>Social Channels:</strong> I will focus on Reddit, X (Twitter), and LinkedIn. While I naturally enjoy being active on Reddit and X, LinkedIn is essential because that is where the potential customers are.</li>
-                            <li><strong>Content Strategy:</strong> To build a strong audience, I will produce memes for engagement, video tutorials showing how things work, and general high-attention posts to build awareness.</li>
-                        </ul>
-                    </div>
+                <div class="focus-card">
+                    <h3>2. Growth Marketing & Brand Visibility</h3>
+                    <ul>
+                        <li><strong>Content Strategy:</strong> I will consistently post on LinkedIn and relevant forums, focusing on the real-world frustrations of financial modeling to build trust with the analyst community.</li>
+                        <li><strong>Community Engagement:</strong> I will be active in niche financial communities (like Reddit’s r/FinancialCareers and Wall Street Oasis), answering questions and subtly introducing the product where it solves a specific pain point.</li>
+                        <li><strong>Events & Networking:</strong> I will represent Tracelight at key industry gatherings and organize informal meetups in banking hubs to get the product directly in front of potential users.</li>
+                        <li><strong>Partnerships:</strong> I will reach out to financial training institutes and university finance clubs to explore opportunities for getting Tracelight into the hands of students and junior analysts.</li>
+                    </ul>
                 </div>
 
-                <div class="honest-section">
-                    <div class="honest-title">60 & 90 Day Plan</div>
-                    <p style="font-size: 1.1rem; font-style: italic;">
-                        “Honestly idk at this point, I could repeat the above and take care of whatever is important we’ll close some pretty amazing deals.”
-                    </p>
+                <div class="focus-card">
+                    <h3>3. Product Feedback & Technical Support</h3>
+                    <ul>
+                        <li><strong>User Requirements:</strong> I will act as the primary bridge between APAC clients and your engineering team, translating vague customer feedback into clear, actionable bug reports or feature requests.</li>
+                        <li><strong>Local QA:</strong> I will test new updates against complex, real-world financial models (like the ones used in Indian/Singaporean banks) to catch issues before they reach the client.</li>
+                        <li><strong>Onboarding Support:</strong> I will personally handle the setup and onboarding for new APAC accounts, ensuring they are integrated correctly and know how to use the tool effectively from Day 1.</li>
+                    </ul>
+                </div>
+
+                <div class="focus-card">
+                    <h3>4. Finance, Admin & Operations</h3>
+                    <ul>
+                        <li><strong>Procurement Navigation:</strong> I will take ownership of the often painful "vendor onboarding" process with large banks, handling the security questionnaires (SOC2, etc.) and legal paperwork required to get deals signed.</li>
+                        <li><strong>Budget Management:</strong> I will manage the APAC P&L responsibly, ensuring that any spend on software, travel, or marketing delivers a clear return on investment.</li>
+                        <li><strong>Sales Operations:</strong> I will keep the CRM (HubSpot/Salesforce) spotless and up-to-date, and set up basic automations to ensure our sales data is accurate and reporting is easy for the London team.</li>
+                    </ul>
+                </div>
+
+                <div class="focus-card">
+                    <h3>5. Technical Operations & Automation</h3>
+                    <ul>
+                        <li><strong>Workflow Automation:</strong> I will focus on automating internal processes using the skills I currently have (Zapier, n8n, etc.) to reduce manual admin work for the team.</li>
+                        <li><strong>Engineering Liaison:</strong> For technical challenges beyond my scope, I will act as a filter—gathering all necessary logs and context before reaching out to engineers—so their time is focused on solving the problem, not investigating it.</li>
+                        <li><strong>Continuous Upskilling:</strong> While I am not a developer yet, I am actively learning to code. I will apply these growing skills to gradually build better internal tools and deepen my understanding of the product’s architecture over time.</li>
+                    </ul>
                 </div>
 
             </div>
+
+            <div class="one-team-note">
+                <p><strong>Note:</strong> While my primary mandate is to capture the APAC market, I do not view my role in isolation. I operate with a "One Team" mindset. If the London team is overwhelmed, facing a bottleneck, or needs support on global initiatives—whether it's scrubbing data, assisting with a UK deal during my evening, or testing a new feature—I will step in. My goal is to be a pressure-relief valve for HQ, ensuring that my capacity is always utilized to drive the company forward, regardless of the time zone or territory.</p>
+            </div>
+
+            <div class="thank-you-msg">Thank you for reading this :)</div>
+
+            <div class="next-btn-container">
+                <div class="next-btn" onclick="navigate('slide-home')">Back to Home ↻</div>
+            </div>
+
         </div>
     </div>
 
@@ -602,7 +690,7 @@
             { id: 'text-1', cursorId: 'cursor-1', text: 'i) The APAC Playbook: Volume x Velocity' },
             { id: 'text-2', cursorId: 'cursor-2', text: 'ii) Why Shyam is the right hire for this?' },
             { id: 'text-3', cursorId: 'cursor-3', text: 'iii) Cost of expanding into APAC' },
-            { id: 'text-4', cursorId: 'cursor-4', text: 'iv) 30-Day Execution Plan & Beyond' }
+            { id: 'text-4', cursorId: 'cursor-4', text: 'iv) Areas to Focus' }
         ];
 
         let currentLine = 0;
