@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracelight GTM Strategy - Shyam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Tracelight GTM Strategy - Shyam</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,9 +26,10 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Space Grotesk', sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* We handle scroll inside wrappers */
             height: 100vh;
             width: 100vw;
+            -webkit-text-size-adjust: 100%;
         }
 
         /* --- SLIDE MECHANISM --- */
@@ -77,6 +77,7 @@
             height: 2px;
             background-color: var(--text-color);
             margin-bottom: 2rem;
+            display: inline-block; /* Centering fix */
         }
 
         .sub-header {
@@ -95,7 +96,8 @@
             gap: 1.2rem;
             width: 100%;
             max-width: 800px;
-            align-items: flex-start; 
+            align-items: center; /* Centered for mobile friendliness */
+            margin: 0 auto;
         }
 
         .toc-item {
@@ -147,22 +149,17 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* --- CONTENT SLIDES STYLING --- */
-        .slide-content-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-            text-align: left;
-        }
-
         .wide-wrapper {
             max-width: 1300px; 
             margin: 0 auto;
             width: 100%;
             text-align: left;
             max-height: 90vh;
-            overflow-y: auto;
+            overflow-y: auto; /* Internal scrolling */
             padding-right: 20px;
             padding-left: 10px;
+            /* Scrollbar styling */
+            scrollbar-width: thin;
         }
         .wide-wrapper::-webkit-scrollbar { width: 6px; }
         .wide-wrapper::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 3px; }
@@ -180,7 +177,7 @@
             line-height: 1.5;
         }
 
-        /* --- TIMELINE SPECIFIC CSS (FIXED) --- */
+        /* --- TIMELINE SPECIFIC CSS --- */
         .timeline-wrapper {
             margin-top: 3rem;
             margin-bottom: 2rem;
@@ -199,6 +196,7 @@
             border-bottom: 1px solid #ddd;
             padding-bottom: 5px;
             width: 100%;
+            flex-wrap: wrap; /* Wrap on mobile */
         }
 
         .timeline-header {
@@ -288,62 +286,40 @@
         }
         .detail-list li strong { font-weight: 700; color: #000; }
 
-        /* --- PLAN PAGE SPECIFIC (NEW GRID) --- */
-        .focus-grid {
+        /* --- PLAN PAGE SPECIFIC --- */
+        .plan-split-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
-        .focus-card {
-            border: 1px solid #ccc;
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.6);
-        }
-        .focus-card h3 {
+        .plan-column h3 {
             font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 1rem;
             border-bottom: 1px solid #000;
             padding-bottom: 0.5rem;
+            display: inline-block;
         }
-        .focus-card ul { list-style: none; padding-left: 0; }
-        .focus-card li { 
-            font-size: 0.95rem; 
-            margin-bottom: 0.8rem; 
-            line-height: 1.4; 
-            padding-left: 1.2rem;
-            position: relative;
-        }
-        .focus-card li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        .focus-card li strong { font-weight: 700; }
+        .plan-column p { font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.5; }
 
-        .one-team-note {
-            border: 2px dashed #999;
-            padding: 1.5rem;
-            background: rgba(0,0,0,0.02);
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
-        .one-team-note strong { text-transform: uppercase; }
-
-        .thank-you-msg {
+        .honest-section {
+            border: 2px dashed #ccc;
+            padding: 2rem;
             text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 3rem;
+            margin-top: 2rem;
             margin-bottom: 4rem;
-            font-style: italic;
+            background: rgba(255,255,255,0.5);
         }
-
+        .honest-title { font-weight: 700; margin-bottom: 1rem; font-size: 1.2rem; }
 
         /* --- COST TABLE STYLES --- */
-        .cost-table { width: 100%; border-collapse: collapse; margin-top: 1rem; margin-bottom: 2.5rem; font-size: 0.95rem; }
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto; /* Enable Horizontal Scroll for Table */
+            margin-bottom: 2.5rem;
+        }
+        .cost-table { width: 100%; min-width: 600px; /* Ensure table has width to scroll */ border-collapse: collapse; margin-top: 1rem; font-size: 0.95rem; }
         .cost-table th { text-align: left; padding: 1rem; border-bottom: 2px solid #000; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
         .cost-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #eee; }
         .cost-table tr:last-child td { border-bottom: none; font-weight: bold; background: rgba(0,0,0,0.03); }
@@ -357,8 +333,19 @@
         /* --- MATH SECTION --- */
         .math-section { background-color: #fff; border: 2px solid var(--text-color); padding: 2rem; margin-bottom: 2rem; }
         .math-header { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
-        .math-formula { font-size: 1.8rem; font-weight: 700; margin: 1.5rem 0; text-align: center; font-family: 'Courier New', Courier, monospace; }
+        .math-formula { font-size: 1.8rem; font-weight: 700; margin: 1.5rem 0; text-align: center; font-family: 'Courier New', Courier, monospace; word-break: break-word; }
         .math-text { font-size: 1rem; line-height: 1.6; }
+
+        /* --- AREAS TO FOCUS GRID --- */
+        .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .focus-card { border: 1px solid #ccc; padding: 1.5rem; background: rgba(255,255,255,0.6); }
+        .focus-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 1px solid #000; padding-bottom: 0.5rem; }
+        .focus-card ul { list-style: none; padding-left: 0; }
+        .focus-card li { font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.4; padding-left: 1.2rem; position: relative; }
+        .focus-card li::before { content: "•"; position: absolute; left: 0; font-weight: bold; }
+        .focus-card li strong { font-weight: 700; }
+        .one-team-note { border: 2px dashed #999; padding: 1.5rem; background: rgba(0,0,0,0.02); margin-top: 2rem; margin-bottom: 2rem; }
+        .thank-you-msg { text-align: center; font-size: 1.2rem; font-weight: bold; margin-top: 3rem; margin-bottom: 4rem; font-style: italic; }
 
         /* --- OTHER SLIDE STYLES --- */
         .split-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 1.5rem; margin-bottom: 2rem; }
@@ -380,29 +367,64 @@
             font-weight: bold;
             opacity: 0.6;
             transition: opacity 0.3s;
+            z-index: 20; /* Ensure clickable */
         }
         .back-btn:hover { opacity: 1; }
 
-        /* --- NEXT PAGE BUTTON --- */
-        .next-btn-container {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
-        .next-btn {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: opacity 0.3s;
-            display: inline-block;
-        }
+        .next-btn-container { width: 100%; display: flex; justify-content: flex-end; margin-top: 2rem; margin-bottom: 4rem; }
+        .next-btn { background-color: var(--text-color); color: var(--bg-color); padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; cursor: pointer; transition: opacity 0.3s; display: inline-block; }
         .next-btn:hover { opacity: 0.8; }
+
+        /* --- MOBILE MEDIA QUERY (Max Width 768px) --- */
+        @media (max-width: 768px) {
+            .slide { padding: 1rem; }
+            .main-header { font-size: 2rem; margin-top: 2rem; }
+            .toc-container { align-items: center; width: 100%; }
+            .toc-item { width: 100%; max-width: 100%; text-align: left; }
+            
+            /* Grids to Single Column */
+            .split-container, 
+            .plan-split-container, 
+            .models-grid, 
+            .plan-grid, 
+            .focus-grid {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+            }
+
+            /* Timeline Horizontal Scroll on Mobile */
+            .timeline-wrapper {
+                overflow-x: auto;
+                padding: 0 40px; 
+                padding-bottom: 8rem;
+                /* Add minimal width to line to ensure it scrolls instead of squishing */
+                -webkit-overflow-scrolling: touch;
+            }
+            .timeline-line {
+                min-width: 700px; /* Forces scroll */
+            }
+
+            /* Headers */
+            h2 { font-size: 1.6rem; }
+            .section-header { font-size: 1.1rem; }
+
+            /* Back Button */
+            .back-btn {
+                position: relative;
+                top: 0; left: 0;
+                margin-bottom: 1rem;
+                display: inline-block;
+            }
+
+            /* Table Scroll */
+            .table-scroll-container { margin-bottom: 1.5rem; }
+            
+            /* Math Formula Size */
+            .math-formula { font-size: 1.2rem; }
+            
+            /* Buttons */
+            .next-btn-container { justify-content: center; }
+        }
 
     </style>
 </head>
@@ -436,8 +458,8 @@
     </div>
 
     <div class="slide" id="slide-apac">
-        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
         <div class="wide-wrapper">
+            <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
             <h2>The APAC Playbook: Volume x Velocity</h2>
             <div class="content-text">
                 <p style="margin-bottom: 1.5rem; max-width: 900px; font-style: italic; font-size: 0.95rem;">
@@ -481,8 +503,8 @@
     </div>
 
     <div class="slide" id="slide-shyam">
-        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
         <div class="wide-wrapper">
+            <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
             <h2>Why Shyam?</h2>
             
             <div class="timeline-wrapper">
@@ -534,7 +556,7 @@
                     <li><strong>The Hustle:</strong> I know opening a new region isn't glamorous—it's a grind. At my last startup, TroopSync, I personally executed over 5,000 outbound touchpoints to validate the market. I don't need a manager to motivate me; I’m used to the rejection and volume required to spin a flywheel from zero.</li>
                 </ul>
             </div>
-
+            
             <div class="next-btn-container">
                 <div class="next-btn" onclick="navigate('slide-cost')">Next Page →</div>
             </div>
@@ -542,28 +564,30 @@
     </div>
 
     <div class="slide" id="slide-cost">
-        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
         <div class="wide-wrapper">
+            <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
             <h2>Cost of Expansion</h2>
             
-            <table class="cost-table">
-                <thead>
-                    <tr>
-                        <th>Cost Item</th>
-                        <th>Hiring Shyam (India Remote)</th>
-                        <th>Hiring Sales (London)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Base Salary</td><td>£30,000</td><td>£55,000</td></tr>
-                    <tr><td>Commissions</td><td>Performance based (linked to number of closed deals)</td><td>Performance based</td></tr>
-                    <tr><td>Sales stack (Apollo.io, LinkedIn Nav, CRM)</td><td>£2,500</td><td>Similar ig</td></tr>
-                    <tr><td>Office/Overhead</td><td>£2,000 (Co-working)</td><td>£12,000 (London Desk + Ops)</td></tr>
-                    <tr><td>Taxes/Benefits</td><td>Included in EOR fee</td><td>+13.8% NI + Pension (~£8k)</td></tr>
-                    <tr><td>Travel (just in case)</td><td>Cheap access to APAC</td><td>Expensive long-haul flights</td></tr>
-                    <tr><td>Result</td><td>24/7 Coverage</td><td>9-5 GMT Coverage</td></tr>
-                </tbody>
-            </table>
+            <div class="table-scroll-container">
+                <table class="cost-table">
+                    <thead>
+                        <tr>
+                            <th>Cost Item</th>
+                            <th>Hiring Shyam (India Remote)</th>
+                            <th>Hiring Sales (London)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Base Salary</td><td>£30,000</td><td>£55,000</td></tr>
+                        <tr><td>Commissions</td><td>Performance based (linked to number of closed deals)</td><td>Performance based</td></tr>
+                        <tr><td>Sales stack (Apollo.io, LinkedIn Nav, CRM)</td><td>£2,500</td><td>Similar ig</td></tr>
+                        <tr><td>Office/Overhead</td><td>£2,000 (Co-working)</td><td>£12,000 (London Desk + Ops)</td></tr>
+                        <tr><td>Taxes/Benefits</td><td>Included in EOR fee</td><td>+13.8% NI + Pension (~£8k)</td></tr>
+                        <tr><td>Travel (just in case)</td><td>Cheap access to APAC</td><td>Expensive long-haul flights</td></tr>
+                        <tr><td>Result</td><td>24/7 Coverage</td><td>9-5 GMT Coverage</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="content-text" style="margin-bottom: 1rem; font-weight: bold;">Legal structure to hire me:</div>
 
@@ -616,8 +640,8 @@
     </div>
 
     <div class="slide" id="slide-plan">
-        <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
         <div class="wide-wrapper">
+            <div class="back-btn" onclick="navigate('slide-home')">← Return</div>
             <h2>Areas to Focus</h2>
             
             <div class="focus-grid">
@@ -738,6 +762,9 @@
             if(targetSlide) {
                 targetSlide.classList.add('active');
             }
+            // Reset scroll for the wide wrapper
+            const wrappers = document.querySelectorAll('.wide-wrapper');
+            wrappers.forEach(w => w.scrollTop = 0);
         }
     </script>
 </body>
